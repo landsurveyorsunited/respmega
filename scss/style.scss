@@ -1,0 +1,415 @@
+/* ==========================================================================
+   $Table of Contents
+   ========================================================================== */
+/**
+ *
+ * $Variables
+ * 		$Colors
+ *		$Fonts
+ * $Mixins
+ * $Global
+ *		$Typography
+ * $Animations
+ * $Buttons
+ * $Main Nav
+ *
+ */
+
+
+
+
+/* ==========================================================================
+   $Variables
+   ========================================================================== */
+
+/* $Colors
+   ========================================================================== */
+$tan:					#F8F3E6;
+$green:					darken(#212121, 12%);
+$green--light:			#414141;
+$green--dark:			#212121;
+$blue:					#a12712;
+
+$color-bg:				$tan;
+$color-text: 			lighten(#000, 12%);
+$color-primary:			$green;
+$color-primary--light:	$green--light;
+$color-primary--dark:	$green--dark;
+$color-primary--darker:	darken($color-primary--dark, 5%);
+$color-accent: 			$blue;
+
+/* $Fonts
+   ========================================================================== */
+$font-primary: 'Sarala', sans-serif;
+
+/* $Radius
+   ========================================================================== */
+$radius: 5px;
+
+/* $Ease
+   ========================================================================== */
+$ease: cubic-bezier(0.165, 0.84, 0.44, 1);
+
+
+
+
+/* ==========================================================================
+   $Mixins
+   ========================================================================== */
+@mixin active {
+
+	&:hover,
+	&:focus,
+	&:active { @content; }	
+
+}
+
+
+
+
+/* ==========================================================================
+   $Partials
+   ========================================================================== */
+
+/* $Clearfix
+   ========================================================================== */
+%clearfix {
+
+	&:before,
+	&:after {
+		content: '';
+		display: table;
+	}
+
+	&:after { clear: both; }
+
+}
+
+
+
+/* ==========================================================================
+   $Global
+   ========================================================================== */
+html { box-sizing: border-box; }
+
+/**
+ * 1. Pixels in responsive design is weird, right?
+ * 	  I've had to re-adjust my mobile/desktop sizes anyways.
+ * 	  Because EM's and REM's don't scale to my liking. ¯\_(ツ)_/¯
+ * 	  Browser zooming ensures that it scales on zoom in/out.
+ */
+
+body {
+	background-color: $color-bg;
+	color: $color-text;
+	font: 16px/1.5 $font-primary; /* 1 */
+	max-width: 1383px;
+	margin: auto;
+	padding: 1.5em;
+}
+
+*,
+*:before,
+*:after { box-sizing: inherit; }
+
+a { color: inherit; }
+
+:focus {
+	box-shadow: 0 0 6px 1px rgba($color-primary, 0.75);
+	outline: none;
+}
+
+.no-boxshadow {
+
+	:focus { outline: 1px auto $color-primary; }
+
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+
+/* $Typography
+   ========================================================================== */
+h1 {
+	font-size: 60px;
+	line-height: 1.2;
+	margin: 48px 0 24px;
+}
+
+h2 {
+	font-size: 38px;
+	line-height: 1.26;
+	margin: 24px 0;
+}
+
+h3 {
+	font-size: 25px;
+	line-height: 1.92;
+	margin: 24px 0 0;
+}
+
+h4 {
+	font-size: 24px;
+	line-height: 1.5;
+	margin: 12px 0 0;
+}
+
+p { margin: 0 0 24px; }
+
+
+
+
+/* ==========================================================================
+   $Animations
+   ========================================================================== */
+@keyframes fly-in--up {
+	
+	0% {
+		opacity: 0;
+		transform: translateY(100%);
+	}	
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+}
+
+
+
+/* ==========================================================================
+   $Buttons
+   ========================================================================== */
+.btn {
+	display: inline-block;
+	background-color: transparent;
+	border-radius: $radius;
+	border: none;
+	margin-bottom: 24px;
+	padding: 6px 24px;
+	text-align: center;
+	transition: all 0.24s $ease;
+
+	[class^="ion-"] { color: #fff; }
+
+}
+
+.btn-primary {
+	background-color: $color-primary;
+	color: #fff;
+	width: 100%;
+
+	@include active {
+		background-color: $color-primary--dark;
+	}
+
+}
+
+
+
+/* ==========================================================================
+   $Main Nav
+   ========================================================================== */
+.is-hidden {
+	position: absolute;
+	opacity: 0;
+	transform: translateX(140%);
+}
+
+.main-nav-wrap {
+	@extend %clearfix;
+	overflow: hidden;
+}
+
+	.main-nav-trigger {
+
+		&.active { background-color: $color-primary--dark; }
+
+	}
+
+	.main-nav,
+	.main-nav ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.js .main-nav { display: none; }
+
+	.main-nav {
+		background-color: $color-primary--dark;
+		border-radius: $radius;
+		filter: drop-shadow(0 0 6px 1px rgba(black, 1));
+		color: #fff;
+		position: relative;
+
+		&:before {
+			border: 8px solid transparent;
+			border-bottom-color: $color-primary--dark;
+			content: '';
+			margin: auto;
+			position: absolute;
+			right: 0;
+			left: 0;
+			bottom: 100%;
+			height: 0;
+			width: 0;
+			transform: translateY(100%);
+		}
+
+		&.active:before { animation: fly-in--up 0.26s $ease 0.2s forwards; }
+
+	}
+
+		.main-nav a {
+			display: block;
+			padding: 12px 24px;
+			text-decoration: none;
+		}
+
+/* 2nd Level Links
+   ========================================================================== */
+.main-dropdown { font-size: 14px; }
+
+	.moves-in > li:not(.subnav-promo) > a {
+		transform: translateX(-100%);
+		position: absolute;
+		opacity: 0;
+	}
+
+	.nav-in		{ animation: fly-in--up 0.24s $ease forwards; }
+	.nav-out	{ animation: fly-in--up 0.24s $ease reverse; }
+
+		.subnav,
+		.subnav a { transition: all 0.24s $ease; }
+
+		.subnav a { transform: translateX(0); }
+
+		.has-subnav-link {
+			transition: all 0.24s $ease;
+
+			&:after {
+				content: '\f10b';
+				display: inline-block;
+				float: right;
+				font-family: 'Ionicons';
+			}
+
+		}
+
+		.go-back { color: $color-primary--light; }
+
+		.subnav-promo {
+			background-color: $color-primary--darker;
+			border-top: 1px solid darken($color-primary--dark, 8%);
+			padding-top: 14px;
+		}
+
+			.promo-img {
+				display: block;
+				margin: auto;
+			}
+
+			.promo-body { padding: 0 24px 12px; }
+
+				.promo-body a {
+					display: inline-block;
+					padding: 0;
+				}
+
+
+@media(min-width: 990px) {
+
+	.main-nav-wrap { overflow: visible; }
+
+		.main-nav-trigger { display: none; }
+
+		.js .main-nav { display: block; }
+
+		.main-nav {
+			background-color: transparent;
+
+			&:before { content: none; }
+
+		}
+
+			.main-nav > li {
+				float: left;
+				width: 20%;
+			}
+
+				.main-nav > li > a {
+					color: $color-primary--dark;
+					text-align: center;
+				}
+
+				.main-nav > .has-subnav > a:after {
+					content: '\f104';
+					margin-left: 6px;
+					float: none;
+					font-size: 75%;
+				}
+
+				.main-dropdown {
+					background-color: $color-primary--dark;
+					border: 1px solid $color-primary--darker;
+					color: #fff;
+					display: table;
+					opacity: 0;
+					position: absolute;
+					right: 0;
+					left: 0;
+					transition: all 0.24s $ease;
+					transform: translateY(15%);
+					visibility: hidden;
+				}
+
+					.main-dropdown > li {
+						display: table-cell;
+						vertical-align: top;
+					}
+
+				.hover > .has-subnav-link {
+					background-color: $color-primary--dark;
+					color: #fff;
+				}
+
+				.hover .main-dropdown {
+					opacity: 1;
+					transform: translateY(0);
+					visibility: visible;
+				}
+
+					.nav-col {
+						border-right: 1px solid $color-primary--darker;
+						margin: 12px 0;
+						padding: 12px 24px;
+						width: 21%;
+					}
+
+						.nav-col .has-subnav + .has-subnav { margin-top: 24px; }
+
+						.subnav-header {
+							font-weight: 700;
+							border-bottom: 1px solid;
+							margin-bottom: 6px;
+
+							&:after { content: none; }
+
+						}
+
+						.subnav a {
+							padding: 3px 0;
+							vertical-align: top;
+						}
+
+						.go-back,
+						.view-all { display: none !important; }
+
+					.subnav-promo { border: none; }
+	
+}
